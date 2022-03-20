@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Gerador Hash Juno</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script type="text/javascript"
+        src="https://sandbox.boletobancario.com/boletofacil/wro/direct-checkout.min.js"></script>
+</head>
+
+<body>
+    <label>
+        Número:
+        <input type="text" name="cardNumber" id="cardNumber">
+    </label>
+    <br>
+    <label>
+        Nome:
+        <input type="text" name="holderName" id="holderName">
+    </label>
+    <br>
+    <label>
+        Código:
+        <input type="text" name="securityCode" id="securityCode">
+    </label>
+    <br>
+    <label>
+        Mês:
+        <input type="text" name="expirationMonth" id="expirationMonth">
+    </label>
+    <br>
+    <label>
+        Ano:
+        <input type="text" name="expirationYear" id="expirationYear">
+    </label>
+    <br>
+    <button onclick="gerarHash()" id="btgerar">Gerar Hash</button>
+    <br>
+    <output name="hash" id="hash">
+        <script type="text/javascript">
+            var checkout = new DirectCheckout('7518EA09C89E69314B71DE696F46D00D162377621EFE73CA8E33EE37C88EC9AE', false);
+            /* Em sandbox utilizar o construtor new DirectCheckout('PUBLIC_TOKEN', false); */
+            function gerarHash() {
+                    var cardData = {
+                        cardNumber: document.getElementById('cardNumber').value,
+                        holderName: document.getElementById('holderName').value,
+                        securityCode: document.getElementById('securityCode').value,
+                        expirationMonth: document.getElementById('expirationMonth').value,
+                        expirationYear: document.getElementById('expirationYear').value
+                    };
+                    console.log(cardData);
+                    checkout.getCardHash(cardData, function (cardHash) {
+                        const output = document.getElementById('hash');
+                        output.innerHTML = cardHash;
+                    }, function (error) {
+                        console.log(error);
+                    });
+            }
+            const button = document.getElementById('btgerar');
+            button.addEventListener('click', gerarHash);
+        </script>
+</body>
+
+</html>
